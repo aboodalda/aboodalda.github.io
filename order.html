@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order — AI Study Series</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0C2A3D;
+    --navy-deep: #081D2A;
+    --teal: #2BB89A;
+    --teal-deep: #0F6E56;
+    --teal-pale: #EAF6F1;
+    --cream: #FDFCFA;
+    --amber: #BA7517;
+    --amber-pale: #FFF8EC;
+    --ink: #1A2E35;
+    --ink-soft: #5C5C58;
+    --line: #E6E2D8;
+    --red: #DC2626;
+    --red-pale: #FEF2F2;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: var(--cream); color: var(--ink); min-height: 100vh; }
+
+  nav {
+    background: rgba(253,252,250,0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand { font-family: 'Fraunces', serif; font-weight: 600; color: var(--navy); display: flex; align-items: center; gap: 8px; text-decoration: none; }
+  .brand-mark { width: 26px; height: 26px; border-radius: 7px; background: var(--navy); color: var(--teal); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; }
+  .back-link { font-size: 0.85rem; color: var(--ink-soft); text-decoration: none; display: flex; align-items: center; gap: 6px; }
+  .back-link:hover { color: var(--teal-deep); }
+
+  .page {
+    max-width: 540px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  .page-header { margin-bottom: 36px; }
+  .page-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--teal-deep); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; display: block; }
+  .page-header h1 { font-family: 'Fraunces', serif; font-size: 1.9rem; color: var(--navy); line-height: 1.2; margin-bottom: 10px; }
+  .page-header p { font-size: 0.92rem; color: var(--ink-soft); }
+
+  .book-summary {
+    background: var(--navy);
+    border-radius: 14px;
+    padding: 20px 22px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .book-thumb {
+    width: 52px; height: 68px;
+    background: linear-gradient(160deg, #15405A, var(--navy-deep));
+    border-radius: 5px;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .book-info h3 { font-family: 'Fraunces', serif; font-size: 0.95rem; color: #fff; margin-bottom: 4px; }
+  .book-info p { font-size: 0.78rem; color: rgba(255,255,255,0.5); }
+  .book-price { margin-left: auto; text-align: right; }
+  .book-price .amount { font-family: 'Fraunces', serif; font-size: 1.4rem; color: var(--teal); font-weight: 600; }
+  .book-price .currency { font-size: 0.72rem; color: rgba(255,255,255,0.45); margin-top: 2px; }
+
+  .form-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 28px 24px;
+    margin-bottom: 20px;
+  }
+  .form-card h2 { font-family: 'Fraunces', serif; font-size: 1.05rem; color: var(--navy); margin-bottom: 22px; }
+
+  .field { margin-bottom: 18px; }
+  .field label { display: block; font-size: 0.84rem; font-weight: 600; color: var(--ink); margin-bottom: 7px; }
+  .field label span { color: var(--red); margin-left: 2px; }
+  .field input, .field select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.92rem;
+    color: var(--ink);
+    background: var(--cream);
+    transition: border-color 0.2s;
+    outline: none;
+    -webkit-appearance: none;
+  }
+  .field input:focus, .field select:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(43,184,154,0.12); }
+  .field input.error { border-color: var(--red); }
+  .field .error-msg { font-size: 0.78rem; color: var(--red); margin-top: 5px; display: none; }
+  .field input.error + .error-msg { display: block; }
+
+  .checkbox-field { display: flex; gap: 12px; align-items: flex-start; }
+  .checkbox-field input[type="checkbox"] { width: 18px; height: 18px; margin-top: 2px; flex-shrink: 0; accent-color: var(--teal); cursor: pointer; }
+  .checkbox-field label { font-size: 0.84rem; color: var(--ink-soft); line-height: 1.5; cursor: pointer; font-weight: 400; }
+
+  .payment-note {
+    background: var(--amber-pale);
+    border-left: 3px solid var(--amber);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+  }
+  .payment-note .pn-title { font-size: 0.82rem; font-weight: 600; color: #633806; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.04em; font-family: 'JetBrains Mono', monospace; }
+  .payment-note p { font-size: 0.85rem; color: #633806; line-height: 1.55; }
+
+  .btn-submit {
+    width: 100%;
+    background: var(--teal);
+    color: var(--navy-deep);
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+  }
+  .btn-submit:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 8px 20px -6px rgba(43,184,154,0.45); }
+  .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+  .btn-submit .spinner { width: 18px; height: 18px; border: 2px solid rgba(8,29,42,0.3); border-top-color: var(--navy-deep); border-radius: 50%; animation: spin 0.7s linear infinite; display: none; }
+  .btn-submit.loading .spinner { display: block; }
+  .btn-submit.loading .btn-text { display: none; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* SUCCESS STATE */
+  .success-state { display: none; text-align: center; padding: 40px 24px; }
+  .success-state.visible { display: block; }
+  .success-icon { width: 72px; height: 72px; background: var(--teal-pale); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; }
+  .success-icon svg { width: 36px; height: 36px; }
+  .success-state h2 { font-family: 'Fraunces', serif; font-size: 1.6rem; color: var(--navy); margin-bottom: 14px; }
+  .success-state p { font-size: 0.92rem; color: var(--ink-soft); margin-bottom: 10px; line-height: 1.6; }
+
+  .wallet-box {
+    background: var(--navy);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 24px 0;
+    text-align: left;
+  }
+  .wallet-box .wb-label { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--teal); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+  .wallet-box .wb-amount { font-family: 'Fraunces', serif; font-size: 1.5rem; color: #fff; margin-bottom: 14px; }
+  .wallet-box .wb-network { font-size: 0.78rem; color: rgba(255,255,255,0.5); margin-bottom: 14px; }
+  .wallet-address {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .wallet-address code { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: rgba(255,255,255,0.85); word-break: break-all; }
+  .copy-btn {
+    background: var(--teal);
+    color: var(--navy-deep);
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-family: 'Inter', sans-serif;
+  }
+  .copy-btn.copied { background: #22c55e; }
+
+  .next-steps { background: var(--teal-pale); border-radius: 12px; padding: 18px 20px; text-align: left; margin-top: 16px; }
+  .next-steps h4 { font-size: 0.85rem; font-weight: 600; color: var(--teal-deep); margin-bottom: 10px; }
+  .next-steps ol { padding-left: 18px; }
+  .next-steps ol li { font-size: 0.85rem; color: var(--teal-deep); margin-bottom: 6px; line-height: 1.5; }
+
+  .form-section { display: block; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="brand">
+    <span class="brand-mark">AI</span>
+    AI Study Series
+  </a>
+  <a href="index.html" class="back-link">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 11L5 7l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Back
+  </a>
+</nav>
+
+<div class="page">
+
+  <div class="form-section" id="formSection">
+    <div class="page-header">
+      <span class="page-eyebrow">Secure order</span>
+      <h1>Get your copy of Book 1</h1>
+      <p>Fill in your details and we'll send your payment instructions right here on screen.</p>
+    </div>
+
+    <div class="book-summary">
+      <div class="book-thumb">📘</div>
+      <div class="book-info">
+        <h3>AI-Powered Research &amp; Summarizing</h3>
+        <p>Book 1 · AI Study Series · 17 pages</p>
+      </div>
+      <div class="book-price">
+        <div class="amount">$5.99</div>
+        <div class="currency">USDT · TRC20</div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <h2>Your details</h2>
+
+      <div class="field">
+        <label for="name">Full name <span>*</span></label>
+        <input type="text" id="name" placeholder="Your full name" autocomplete="name">
+        <div class="error-msg">Please enter your name</div>
+      </div>
+
+      <div class="field">
+        <label for="email">Email address <span>*</span></label>
+        <input type="email" id="email" placeholder="your@email.com" autocomplete="email">
+        <div class="error-msg">Please enter a valid email</div>
+      </div>
+
+      <div class="field">
+        <label for="heard">How did you hear about this?</label>
+        <select id="heard">
+          <option value="">Select an option</option>
+          <option value="instagram">Instagram</option>
+          <option value="friend">A friend recommended it</option>
+          <option value="search">Google / web search</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <div class="checkbox-field">
+          <input type="checkbox" id="agree" name="agree">
+          <label for="agree">I understand I'll send $5.99 USDT (TRC20) and receive the PDF by email after payment is confirmed.</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="payment-note">
+      <div class="pn-title">Payment method</div>
+      <p>Payment is via USDT on the TRC20 network. The wallet address will appear on screen after you submit this form. Book is delivered by email within a few hours of confirmation.</p>
+    </div>
+
+    <button class="btn-submit" id="submitBtn" onclick="submitOrder()">
+      <span class="btn-text">
+        Continue to payment
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <div class="spinner"></div>
+    </button>
+  </div>
+
+  <div class="success-state" id="successState">
+    <div class="success-icon">
+      <svg viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="18" fill="#EAF6F1"/><path d="M10 18l5 5 11-11" stroke="#0F6E56" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <h2>Order received!</h2>
+    <p>Thanks <strong id="customerName"></strong>! Please send your payment to the wallet below, then we'll deliver the book to <strong id="customerEmail"></strong>.</p>
+
+    <div class="wallet-box">
+      <div class="wb-label">Send exactly</div>
+      <div class="wb-amount">$5.99 USDT</div>
+      <div class="wb-network">Network: TRC20 (Tron) — do not use other networks</div>
+      <div class="wallet-address">
+        <code id="walletAddr">TM1eUn9tAQQkJ83Gpm9gb6PTNDgHSksjdo</code>
+        <button class="copy-btn" onclick="copyWallet()">Copy</button>
+      </div>
+    </div>
+
+    <div class="next-steps">
+      <h4>What happens next?</h4>
+      <ol>
+        <li>Send $5.99 USDT to the address above (TRC20 only)</li>
+        <li>Reply to our confirmation email with your transaction ID</li>
+        <li>We'll verify and send your PDF within a few hours</li>
+      </ol>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const SUPABASE_URL = 'https://ppenuxzrdvhnfltxyzfn.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_cUsx8i-nDllqhTed1SA02Q_0jXRdLQY';
+
+  // ⬇️ ضع عنوان محفظة USDT تبعك هنا
+  const USDT_WALLET = 'TM1eUn9tAQQkJ83Gpm9gb6PTNDgHSksjdo';
+
+  async function submitOrder() {
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const heard = document.getElementById('heard').value;
+    const agreed = document.getElementById('agree').checked;
+
+    // validation
+    let valid = true;
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+
+    if (!name) { nameInput.classList.add('error'); valid = false; }
+    else { nameInput.classList.remove('error'); }
+
+    if (!email || !email.includes('@')) { emailInput.classList.add('error'); valid = false; }
+    else { emailInput.classList.remove('error'); }
+
+    if (!agreed) { alert('Please confirm you understand the payment process.'); return; }
+    if (!valid) return;
+
+    const btn = document.getElementById('submitBtn');
+    btn.classList.add('loading');
+    btn.disabled = true;
+
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({ name, email, heard_from: heard, status: 'pending' })
+      });
+
+      if (res.ok || res.status === 201) {
+        document.getElementById('customerName').textContent = name;
+        document.getElementById('customerEmail').textContent = email;
+        document.getElementById('walletAddr').textContent = USDT_WALLET;
+        document.getElementById('formSection').style.display = 'none';
+        document.getElementById('successState').classList.add('visible');
+        window.scrollTo(0, 0);
+      } else {
+        const err = await res.text();
+        alert('Something went wrong. Please try again.\n' + err);
+        btn.classList.remove('loading');
+        btn.disabled = false;
+      }
+    } catch (e) {
+      alert('Connection error. Please check your internet and try again.');
+      btn.classList.remove('loading');
+      btn.disabled = false;
+    }
+  }
+
+  function copyWallet() {
+    const addr = document.getElementById('walletAddr').textContent;
+    navigator.clipboard.writeText(addr).then(() => {
+      const btn = document.querySelector('.copy-btn');
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+</script>
+
+</body>
+</html>
