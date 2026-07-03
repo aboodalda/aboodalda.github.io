@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Study Series — Aboud Hassan</title>
+<meta name="description" content="AI-Powered Research & Summarizing — a practical guide to cutting study time in half. Book 1 of the AI Study Series.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0C2A3D;
+    --navy-light: #15405A;
+    --navy-deep: #081D2A;
+    --teal: #2BB89A;
+    --teal-deep: #0F6E56;
+    --teal-pale: #EAF6F1;
+    --cream: #FDFCFA;
+    --amber: #BA7517;
+    --amber-pale: #FFF8EC;
+    --ink: #1A2E35;
+    --ink-soft: #5C5C58;
+    --line: #E6E2D8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, .display {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--navy);
+  }
+
+  .mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* ---------- NAV ---------- */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(253, 252, 250, 0.88);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 18px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .brand {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--navy);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .brand-mark {
+    width: 26px; height: 26px;
+    border-radius: 7px;
+    background: var(--navy);
+    color: var(--teal);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+  }
+  .nav-cta {
+    background: var(--navy);
+    color: var(--cream);
+    padding: 9px 20px;
+    border-radius: 100px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: background 0.2s ease;
+  }
+  .nav-cta:hover { background: var(--teal-deep); }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    background: linear-gradient(165deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color: var(--cream);
+    position: relative;
+    overflow: hidden;
+    padding: 76px 0 0;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -120px; right: -140px;
+    width: 420px; height: 420px;
+    border-radius: 50%;
+    background: var(--navy-light);
+    opacity: 0.55;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -180px; left: -120px;
+    width: 360px; height: 360px;
+    border-radius: 50%;
+    background: var(--navy-light);
+    opacity: 0.35;
+  }
+  .hero-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 28px;
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1.1fr 0.8fr;
+    gap: 56px;
+    align-items: center;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(43,184,154,0.16);
+    border: 1px solid rgba(43,184,154,0.35);
+    color: var(--teal);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 7px 14px;
+    border-radius: 100px;
+    margin-bottom: 28px;
+  }
+  .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); }
+
+  .hero h1 {
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    line-height: 1.06;
+    color: var(--cream);
+    margin-bottom: 22px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--teal);
+  }
+  .hero-sub {
+    font-size: 1.08rem;
+    color: rgba(253,252,250,0.72);
+    max-width: 480px;
+    margin-bottom: 36px;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .btn-primary {
+    background: var(--teal);
+    color: var(--navy-deep);
+    font-weight: 700;
+    padding: 15px 30px;
+    border-radius: 100px;
+    font-size: 0.96rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 0 0 0 rgba(43,184,154,0.4);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 24px -8px rgba(43,184,154,0.5); }
+  .btn-ghost {
+    color: rgba(253,252,250,0.8);
+    font-size: 0.92rem;
+    font-weight: 500;
+    padding: 15px 4px;
+    border-bottom: 1px solid rgba(253,252,250,0.3);
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 28px;
+    margin-top: 44px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(253,252,250,0.14);
+  }
+  .hero-meta-item .num { font-family: 'Fraunces', serif; font-size: 1.5rem; color: var(--teal); font-weight: 600; }
+  .hero-meta-item .label { font-size: 0.74rem; color: rgba(253,252,250,0.5); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px; }
+
+  /* book mockup */
+  .hero-visual { position: relative; display: flex; justify-content: center; }
+  .book-cover {
+    width: 260px;
+    aspect-ratio: 8.5/11;
+    background: linear-gradient(160deg, var(--navy) 0%, var(--navy-deep) 100%);
+    border-radius: 8px;
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.06);
+    padding: 30px 24px;
+    position: relative;
+    overflow: hidden;
+    transform: rotate(3deg);
+  }
+  .book-cover::before {
+    content: '';
+    position: absolute;
+    top: -50px; right: -50px;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: var(--navy-light);
+  }
+  .book-badge {
+    position: relative; z-index: 1;
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--teal); color: var(--navy-deep);
+    font-size: 0.62rem; font-weight: 700;
+    padding: 5px 11px; border-radius: 100px;
+    width: fit-content;
+  }
+  .book-title {
+    position: relative; z-index: 1;
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem; font-weight: 600; color: #fff;
+    margin-top: 80px; line-height: 1.22;
+  }
+  .book-sub {
+    position: relative; z-index: 1;
+    font-size: 0.7rem; color: rgba(253,252,250,0.6);
+    margin-top: 10px; line-height: 1.5;
+  }
+  .book-author {
+    position: relative; z-index: 1;
+    margin-top: auto; padding-top: 28px;
+    font-size: 0.72rem; color: rgba(253,252,250,0.7);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .book-author .av {
+    width: 20px; height: 20px; border-radius: 50%; background: var(--teal);
+    color: var(--navy-deep); font-size: 0.6rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* floating timer chip — the signature element, echoing the book's 30-min walkthrough */
+  .float-chip {
+    position: absolute;
+    background: var(--cream);
+    border-radius: 12px;
+    box-shadow: 0 16px 32px -12px rgba(0,0,0,0.35);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .float-chip.c1 { top: 6%; left: -8%; transform: rotate(-6deg); }
+  .float-chip.c2 { bottom: 10%; right: -10%; transform: rotate(5deg); }
+  .float-chip .fc-bar { width: 3px; height: 28px; background: var(--teal); border-radius: 2px; }
+  .float-chip .fc-text { font-size: 0.68rem; }
+  .float-chip .fc-label { font-family: 'JetBrains Mono', monospace; font-weight: 600; color: var(--teal-deep); font-size: 0.62rem; text-transform: uppercase; }
+  .float-chip .fc-sub { color: var(--ink-soft); margin-top: 1px; }
+
+  /* ---------- PROBLEM/PROMISE ---------- */
+  .section { padding: 88px 0; }
+  .section-head { max-width: 600px; margin-bottom: 52px; }
+  .section-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--teal-deep);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 14px;
+    display: block;
+  }
+  .section h2 { font-size: clamp(1.7rem, 3.4vw, 2.3rem); line-height: 1.18; }
+
+  .promise-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .promise-card {
+    background: var(--cream);
+    padding: 32px 28px;
+  }
+  .promise-card .pc-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--teal-deep);
+    margin-bottom: 18px;
+  }
+  .promise-card h3 { font-size: 1.15rem; margin-bottom: 10px; }
+  .promise-card p { font-size: 0.9rem; color: var(--ink-soft); }
+
+  /* ---------- BOOK DETAIL / TOC PREVIEW ---------- */
+  .book-section {
+    background: var(--navy);
+    color: var(--cream);
+    padding: 96px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .book-section::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: var(--navy-light);
+    opacity: 0.4;
+  }
+  .book-grid {
+    position: relative; z-index: 2;
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 64px;
+    align-items: start;
+  }
+  .book-grid .section-eyebrow { color: var(--teal); }
+  .book-grid h2 { color: var(--cream); margin-bottom: 18px; }
+  .book-grid > div:first-child p { color: rgba(253,252,250,0.65); font-size: 0.98rem; margin-bottom: 32px; }
+
+  .toc-list { display: flex; flex-direction: column; gap: 0; }
+  .toc-row {
+    display: flex; align-items: center; gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(253,252,250,0.1);
+  }
+  .toc-num {
+    width: 30px; height: 30px; flex-shrink: 0;
+    border-radius: 50%;
+    background: rgba(43,184,154,0.18);
+    color: var(--teal);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .toc-row h4 { font-size: 0.98rem; font-weight: 600; color: var(--cream); margin-bottom: 3px; }
+  .toc-row p { font-size: 0.82rem; color: rgba(253,252,250,0.5); }
+
+  .what-you-get {
+    margin-top: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .wyg-item { display: flex; align-items: flex-start; gap: 10px; font-size: 0.88rem; color: rgba(253,252,250,0.75); }
+  .wyg-item svg { flex-shrink: 0; margin-top: 3px; }
+
+  /* ---------- PRICING / ORDER ---------- */
+  .order-section { padding: 96px 0; }
+  .order-card {
+    max-width: 760px;
+    margin: 0 auto;
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 24px 60px -30px rgba(12,42,61,0.25);
+  }
+  .order-top {
+    padding: 40px 40px 32px;
+    text-align: center;
+    border-bottom: 1px solid var(--line);
+  }
+  .price-tag {
+    font-family: 'Fraunces', serif;
+    font-size: 3.2rem;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1;
+  }
+  .price-tag span { font-size: 1.1rem; color: var(--ink-soft); font-weight: 500; font-family: 'Inter', sans-serif; }
+  .price-note { font-size: 0.85rem; color: var(--ink-soft); margin-top: 10px; }
+
+  .order-steps { padding: 36px 40px; }
+  .order-steps h3 { font-size: 1.05rem; margin-bottom: 22px; }
+  .step-row {
+    display: flex; gap: 16px;
+    padding: 14px 0;
+  }
+  .step-num {
+    width: 28px; height: 28px; flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--teal-pale);
+    color: var(--teal-deep);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .step-row h4 { font-size: 0.94rem; font-weight: 600; margin-bottom: 3px; }
+  .step-row p { font-size: 0.85rem; color: var(--ink-soft); }
+  .step-row code {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--teal-pale);
+    color: var(--teal-deep);
+    padding: 1px 7px;
+    border-radius: 5px;
+    font-size: 0.82rem;
+  }
+
+  .order-cta {
+    margin: 0 40px 40px;
+    background: var(--navy);
+    border-radius: 14px;
+    padding: 26px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .order-cta p { color: rgba(253,252,250,0.6); font-size: 0.82rem; max-width: 280px; }
+  .order-cta .btn-primary { white-space: nowrap; }
+
+  /* ---------- QUOTE / TRUST ---------- */
+  .trust-section { padding: 80px 0; text-align: center; }
+  .trust-quote {
+    max-width: 620px;
+    margin: 0 auto;
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+    font-style: italic;
+    color: var(--navy);
+    line-height: 1.45;
+  }
+  .trust-quote .qmark { color: var(--teal); font-size: 2rem; line-height: 0; vertical-align: -10px; }
+  .trust-attr { margin-top: 20px; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--ink-soft); }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    background: var(--navy-deep);
+    color: rgba(253,252,250,0.55);
+    padding: 56px 0 32px;
+  }
+  .footer-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 32px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid rgba(253,252,250,0.1);
+  }
+  .footer-brand { display: flex; align-items: center; gap: 8px; color: var(--cream); font-family: 'Fraunces', serif; font-weight: 600; }
+  .footer-links { display: flex; gap: 28px; font-size: 0.85rem; flex-wrap: wrap; }
+  .footer-links a:hover { color: var(--teal); }
+  .footer-bottom {
+    padding-top: 24px;
+    font-size: 0.78rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 880px) {
+    .hero-inner { grid-template-columns: 1fr; padding-top: 8px; }
+    .hero-visual { order: -1; margin-bottom: 12px; }
+    .hero { padding-top: 48px; }
+    .promise-grid { grid-template-columns: 1fr; }
+    .book-grid { grid-template-columns: 1fr; gap: 40px; }
+    .order-cta { flex-direction: column; align-items: flex-start; }
+    .order-top, .order-steps { padding-left: 24px; padding-right: 24px; }
+    .order-cta { margin-left: 24px; margin-right: 24px; }
+    .float-chip { display: none; }
+    .hero-meta { flex-wrap: wrap; gap: 20px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { transition: none !important; }
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--teal);
+    outline-offset: 3px;
+  }
+
+  /* -------- ANIMATIONS -------- */
+
+  /* Fade in on load */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* Pulse on CTA button */
+  @keyframes pulse-ring {
+    0%   { box-shadow: 0 0 0 0 rgba(43,184,154,0.45); }
+    70%  { box-shadow: 0 0 0 14px rgba(43,184,154,0); }
+    100% { box-shadow: 0 0 0 0 rgba(43,184,154,0); }
+  }
+
+  /* Hero elements fade up on load */
+  .hero .eyebrow   { animation: fadeUp 0.6s ease both; animation-delay: 0.1s; }
+  .hero h1         { animation: fadeUp 0.6s ease both; animation-delay: 0.25s; }
+  .hero .hero-sub  { animation: fadeUp 0.6s ease both; animation-delay: 0.4s; }
+  .hero-actions    { animation: fadeUp 0.6s ease both; animation-delay: 0.55s; }
+  .hero-meta       { animation: fadeUp 0.6s ease both; animation-delay: 0.7s; }
+  .hero-visual     { animation: fadeIn 0.8s ease both; animation-delay: 0.3s; }
+
+  /* Scroll reveal — hidden state */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* Pulse on primary CTA */
+  .btn-primary.pulse {
+    animation: pulse-ring 2s ease infinite;
+  }
+
+  /* Counter number pop */
+  .hero-meta-item .num {
+    display: inline-block;
+    transition: transform 0.3s ease;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="brand">
+      <span class="brand-mark">AI</span>
+      AI Study Series
+    </div>
+    <a href="#order" class="nav-cta">Get the book</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="eyebrow"><span class="dot"></span> Book 1 of the AI Study Series</div>
+      <h1>Cut your study time <em>in half</em> — without cutting corners.</h1>
+      <p class="hero-sub">A short, practical guide to using AI as a research and summarizing partner — built for students who'd rather spend their time learning than digging through tabs.</p>
+      <div class="hero-actions">
+        <a href="#order" class="btn-primary pulse">
+          Get the book — $5.99
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#inside" class="btn-ghost">See what's inside</a>
+      </div>
+      <div class="hero-meta">
+        <div class="hero-meta-item"><div class="num">17</div><div class="label">Pages</div></div>
+        <div class="hero-meta-item"><div class="num">4</div><div class="label">Chapters</div></div>
+        <div class="hero-meta-item"><div class="num">30 min</div><div class="label">To finish</div></div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="float-chip c1">
+        <div class="fc-bar"></div>
+        <div class="fc-text"><div class="fc-label">Min 0–5</div><div class="fc-sub">Research prompt</div></div>
+      </div>
+      <div class="book-cover">
+        <span class="book-badge">✦ AI study series · book 1</span>
+        <div class="book-title">AI-powered research &amp; summarizing</div>
+        <div class="book-sub">Your quick guide to cutting study time in half</div>
+        <div class="book-author"><span class="av">A</span> Aboud Hassan</div>
+      </div>
+      <div class="float-chip c2">
+        <div class="fc-bar"></div>
+        <div class="fc-text"><div class="fc-label">Min 25–30</div><div class="fc-sub">Final structure</div></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-eyebrow">The problem</span>
+      <h2>You're not behind because you're slow. You're behind because the groundwork eats the time.</h2>
+    </div>
+    <div class="promise-grid">
+      <div class="promise-card reveal reveal-delay-1">
+        <div class="pc-num">01</div>
+        <h3>Vague prompts, vague answers</h3>
+        <p>"Summarize this" gets you a bland paragraph. The book teaches the exact structure that fixes it — task, format, limit.</p>
+      </div>
+      <div class="promise-card reveal reveal-delay-2">
+        <div class="pc-num">02</div>
+        <h3>Hours lost to research</h3>
+        <p>A layered prompting method that turns a 40-page chapter or messy notes into what you actually need to know.</p>
+      </div>
+      <div class="promise-card reveal reveal-delay-3">
+        <div class="pc-num">03</div>
+        <h3>No system to repeat</h3>
+        <p>One full 30-minute walkthrough you can copy for any subject — not just theory, an exact sequence to follow.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="book-section" id="inside">
+  <div class="wrap">
+    <div class="book-grid">
+      <div class="reveal">
+        <span class="section-eyebrow">What's inside</span>
+        <h2>Four short chapters. One repeatable method.</h2>
+        <p>No fluff, no padding — every chapter ends with something you actually do, not just read.</p>
+
+        <div class="what-you-get">
+          <div class="wyg-item">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3 3 7-7" stroke="#2BB89A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            17-page PDF, readable on phone or desktop
+          </div>
+          <div class="wyg-item">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3 3 7-7" stroke="#2BB89A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Hands-on exercise at the end of every chapter
+          </div>
+          <div class="wyg-item">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3 3 7-7" stroke="#2BB89A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Copy-paste prompts you can use immediately
+          </div>
+          <div class="wyg-item">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3 3 7-7" stroke="#2BB89A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Works with ChatGPT, Claude, or Gemini — free tiers only
+          </div>
+        </div>
+      </div>
+
+      <div class="toc-list reveal reveal-delay-2">
+        <div class="toc-row">
+          <div class="toc-num">1</div>
+          <div><h4>What AI actually is</h4><p>The mental model that prevents most student mistakes</p></div>
+        </div>
+        <div class="toc-row">
+          <div class="toc-num">2</div>
+          <div><h4>Vague questions get vague answers</h4><p>The 3-part structure behind every strong prompt</p></div>
+        </div>
+        <div class="toc-row">
+          <div class="toc-num">3</div>
+          <div><h4>Not all summaries are the same</h4><p>A layered method for articles, lectures, and notes</p></div>
+        </div>
+        <div class="toc-row">
+          <div class="toc-num">4</div>
+          <div><h4>Putting it all together</h4><p>One full 30-minute research walkthrough, step by step</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="trust-section">
+  <div class="wrap">
+    <p class="trust-quote"><span class="qmark">"</span>The goal isn't a perfect essay. It's proving to yourself that this process saves time.<span class="qmark">"</span></p>
+    <p class="trust-attr">— FROM CHAPTER 4</p>
+  </div>
+</section>
+
+<section class="order-section" id="order">
+  <div class="wrap">
+    <div class="section-head" style="margin: 0 auto 44px; text-align: center;">
+      <span class="section-eyebrow">Get the book</span>
+      <h2>One book. One payment. No subscription.</h2>
+    </div>
+
+    <div class="order-card reveal">
+      <div class="order-top">
+        <div class="price-tag">$5.99 <span>USD</span></div>
+        <p class="price-note">Paid via USDT (TRC20) · instant delivery once confirmed</p>
+      </div>
+
+      <div class="order-steps">
+        <h3>How it works</h3>
+        <div class="step-row">
+          <div class="step-num">1</div>
+          <div><h4>Send your order</h4><p>Fill out the short form below with your name and email.</p></div>
+        </div>
+        <div class="step-row">
+          <div class="step-num">2</div>
+          <div><h4>Send <code>$5.99 USDT</code> (TRC20 network)</h4><p>Wallet address is provided right after you submit the form.</p></div>
+        </div>
+        <div class="step-row">
+          <div class="step-num">3</div>
+          <div><h4>Get your book by email</h4><p>Once payment is confirmed, the PDF is sent directly to your inbox — usually within a few hours.</p></div>
+        </div>
+      </div>
+
+      <div class="order-cta">
+        <p>You'll be redirected to a short order form. No account or app install needed.</p>
+        <a href="#" class="btn-primary" id="orderBtn">
+          Start your order
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand"><span class="brand-mark">AI</span> AI Study Series</div>
+      <div class="footer-links">
+        <a href="#inside">What's inside</a>
+        <a href="#order">Get the book</a>
+        <a href="mailto:hello@example.com">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Aboud Hassan. Book 2 — review &amp; exam prep with AI — coming soon.</span>
+      <span class="mono">Made for students, from Gaza.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('orderBtn').addEventListener('click', function(e) {
+    e.preventDefault();
+    window.location.href = 'order.html';
+  });
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => revealObserver.observe(el));
+
+  // Counter animation for hero numbers
+  function animateCounter(el, target, duration, suffix) {
+    let start = 0;
+    const step = target / (duration / 16);
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= target) {
+        el.textContent = target + (suffix || '');
+        clearInterval(timer);
+      } else {
+        el.textContent = Math.floor(start) + (suffix || '');
+      }
+    }, 16);
+  }
+
+  const metaObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const nums = document.querySelectorAll('.hero-meta-item .num');
+        if (nums[0]) animateCounter(nums[0], 17, 800, '');
+        if (nums[1]) animateCounter(nums[1], 4, 600, '');
+        if (nums[2]) { nums[2].textContent = '0 min'; setTimeout(() => animateCounter(nums[2], 30, 900, ' min'), 100); }
+        metaObserver.disconnect();
+      }
+    });
+  }, { threshold: 0.5 });
+
+  const heroMeta = document.querySelector('.hero-meta');
+  if (heroMeta) metaObserver.observe(heroMeta);
+</script>
+
+</body>
+</html>
